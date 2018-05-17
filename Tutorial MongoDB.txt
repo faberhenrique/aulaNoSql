@@ -1,0 +1,100 @@
+Tutorial MongoDB
+
+
+1) mongod --> Inicia serviço Mongo
+			Porta padrão 27017
+
+2) mongo --> Inicia mongoshell
+
+A database padrão do mongo é test 
+para verificar digite o comando 
+
+3) db
+
+Para criar uma nova database ou mudar a atual digite:
+
+4) use meubd
+
+Atualmente a base de dados meudb ainda não existe verifique utilizando o comando 
+
+5) show dbs
+
+Contudo, toda a alteração do contexto necessário para utilizar a base de dados meubd já foi realizada. 
+Para efetuar a criação da nova base de dados é necessário realizar o insert em uma collection
+
+6) db.aluno.insert({nome:"seu nome"})
+
+Como consequência sua base de dados meudb terá sido criada
+
+7) show dbs
+
+Com a nova base de dados criada podemos agora verificar a existência das collections que foram inseridas
+
+8) show collections
+
+Por utilizar JSON como estrutura do documento o MONGODB possui um interpretador de JavaScript presente no seu shell
+
+9) print('hello world')
+
+Desta forma podemos criar variáveis e executar outros comandos
+
+10) var minhasNotas = [0,10,2,3,4,8,8,0]
+11) minhasNotas
+12) for(i=0;i<1000;i++){db.numbers.insert({"numbers":i})}
+
+Para verificar se o número de inserts dentro da collection numbers foi correto utilize o comando 
+
+13) db.numbers.count()
+
+Utilizando o comando find é possível encontrar os documentos inseridos em cada collection. 
+
+o comando find é composto da seguinte estrutura:
+
+db.collection.find(query, projection)
+
+Onde a query é responsável por determinar o que será buscado e a projection o que será retornado
+
+Desta forma, a query estaria para o mongo assim como o where está para o sql. 
+
+Caso se deseje recuperar todos os documentos utilize
+
+14) db.numbers.find({})
+
+Sabendo que o find o primeiro parâmetro do find é responsável pela filtragem do documento 
+selecione os seguintes documentos inseridos na collection numbers:
+
+* Documento referente ao número 12
+* Documentos maiores que 800
+* Documentos menores que 10 
+
+Utilize dos operadores abaixo
+
+$eq => a valores iguais a um valor especificado.
+$gt => a valores que são maiores que um valor especificado.
+$gte => a valores que são maiores ou iguais a um valor especificado.
+$in => a qualquer um dos valores especificados no array.
+$lt => a valores que são menores que um valor especificado.
+$lte => a valores que são menores ou iguais a um valor especificado.
+$ne => a todos os valores que não são iguais a um valor especificado.
+$nin => a nenhum dos valores especificados no array.
+
+Para compreender o funcionamento das querys do mondo utilize o método explain
+
+15) db.numbers.find({}).explain()
+
+O melhor detalhamento do funcionamento da query pode ser visto com o seguinte comando 
+
+16) db.numbers.find({"numbers":1}).explain('executionStats')
+
+Verifique que para encontrar o número 1 foi necessário que todos os 1000 documentos fossem buscados, 
+contudo como bases de dados nosql são focadas em grande valume de dados é essencial que a mesma seja otimizada para tal iremos utilizar da criação de indexes (No caso do mongo B-TREE --> https://docs.mongodb.com/manual/indexes/index.html#create-an-index ). 
+
+db.collection.createIndex( <key and index type specification>, <options> )
+
+
+17) db.numbers.createIndex({number:1})
+
+Verifique agora o total de documentos necessários para geração do retorno. 
+
+
+
